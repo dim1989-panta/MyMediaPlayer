@@ -5,7 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -22,6 +26,31 @@ public class HelloApplication extends Application {
         searchButton.setOnAction(s->{
             FileChooser f=new FileChooser();
             videoFile=f.showOpenDialog(stage);
+            if(videoFile!=null){
+                Media videomedia = new Media(videoFile.toURI().toString());
+                MediaPlayer mdplayer = new MediaPlayer(videomedia);
+                MediaView viewmedia = new MediaView(mdplayer);
+                viewmedia.setFitHeight(455);
+                viewmedia.setFitWidth(500);
+                Button exitDialog=new Button("exit");
+                Button pause = new Button("Pause");
+                Button resume = new Button("Resume");
+                Button play=new Button("play");
+                Button stop=new Button("stop");
+                exit.setOnAction(ex->{
+                    System.exit(0);
+                });
+                HBox box = new HBox(20, play,pause, resume,stop,exitDialog);
+                box.setAlignment(Pos.CENTER);
+                pause.setOnAction(act -> mdplayer.pause());
+                resume.setOnAction(act -> mdplayer.play());
+                stop.setOnAction(act-> mdplayer.stop());
+                play.setOnAction(act->mdplayer.play());
+                VBox root = new VBox(20);
+                root.setAlignment(Pos.CENTER);
+                root.getChildren().addAll(viewmedia, box);
+                Player player=new Player(root,stage);
+            }
         });
         exit.setOnAction(ex->{
             System.exit(0);
