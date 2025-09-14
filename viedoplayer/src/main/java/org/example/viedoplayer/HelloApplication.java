@@ -25,6 +25,9 @@ public class HelloApplication extends Application {
         //File videoFile;
         searchButton.setOnAction(s->{
             FileChooser f=new FileChooser();
+            FileChooser.ExtensionFilter videoFilter = new FileChooser.ExtensionFilter("Βίντεο (*.mp4, *.avi, *.mov)", "*.mp4", "*.avi", "*.mov");
+            f.getExtensionFilters().add(videoFilter);
+
             videoFile=f.showOpenDialog(stage);
             if(videoFile!=null){
                 Media videomedia = new Media(videoFile.toURI().toString());
